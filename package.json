@@ -1,0 +1,76 @@
+{
+  "_args": [
+    [
+      "homebridge-json-file",
+      ""
+    ],
+    [
+      "homebridge-json-file",
+      ""
+    ]
+  ],
+  "_from": "homebridge-json-file@*",
+  "_id": "homebridge-json-file@0.1.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/homebridge-json-file",
+  "_nodeVersion": "5.1.1",
+  "_npmUser": {
+    "email": "mail@bernhardhering.de",
+    "name": "boernei"
+  },
+  "_npmVersion": "3.3.12",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "homebridge-json-file",
+    "raw": "homebridge-json-file",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "*",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_shrinkwrap": null,
+  "_spec": "homebridge-json-file",
+  "_where": "",
+  "author": {
+    "email": "mail@bernhardhering.de",
+    "name": "boernei"
+  },
+  "bugs": {
+    "url": "https://github.com/boernei/homebridge-json-file/issues"
+  },
+  "dependencies": {
+    "fakegato-history": "^0.6.1",
+    "superagent": "^6.1.0"
+  },
+  "description": "homebridge-json-file",
+  "devDependencies": {},
+  "directories": {},
+  "engines": {
+    "homebridge": ">=0.2.0",
+    "node": ">=0.12.0"
+  },
+  "homepage": "https://github.com/boernei/homebridge-json-file",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "mail@bernhardhering.de",
+      "name": "boernei"
+    }
+  ],
+  "name": "homebridge-json-file",
+  "optionalDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boernei/homebridge-json-file.git"
+  },
+  "scripts": {},
+  "version": "0.1.0"
+}

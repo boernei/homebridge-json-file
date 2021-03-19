@@ -1,0 +1,44 @@
+[
+  {
+    "accessory": "json-file",
+    "name": "WMZ Heizkreis Vorlauf",
+    "service": "Temperature",
+    "path": "/Users/balthasar/Desktop/wmz.json",
+    "sensors": [
+      {
+        "name": "WMZ Heizkreis Temperatur Vorlauf",
+        "service": "TemperatureSensor",
+        "caractheristic": "CurrentTemperature",
+        "field": "VIFUnit.FLOW_TEMPERATURE"
+      }
+    ]
+  },
+  {
+    "accessory": "json-file",
+    "name": "WMZ Heizkreis Rücklauf",
+    "service": "Temperature",
+    "path": "/Users/balthasar/Desktop/wmz.json",
+    "sensors": [
+      {
+        "name": "WMZ Heizkreis Temperatur Rücklauf",
+        "service": "TemperatureSensor",
+        "caractheristic": "CurrentTemperature",
+        "field": "VIFUnit.RETURN_TEMPERATURE"
+      }
+    ]
+  },
+  {
+    "accessory": "json-file",
+    "name": "WMZ Heizkreis Power",
+    "service": "PowerMeter",
+    "path": "/Users/balthasar/Desktop/wmz.json",
+    "sensors": [
+      {
+        "name": "WMZ Heizkreis Power",
+        "service": "Switch",
+        "caractheristic": "Consumption",
+        "field": "VIFUnit.POWER_W"
+      }
+    ]
+  }
+]
