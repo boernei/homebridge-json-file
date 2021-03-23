@@ -134,8 +134,6 @@ HttpAccessory.prototype = {
                     humidity: 0,
                     ppm: 0
                 })
-                callback(null, reading1);
-                return reading1;
             } else { // CurrentPowerConsumption
                 console.log("power")
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
@@ -147,9 +145,12 @@ HttpAccessory.prototype = {
                     ppm: 0
                 })
                 loggingService.setExtraPersistedData({totalenergy: (reading2 / 1000), lastReset: 0});
-                callback(null, reading1);
-                return reading1;
+
             }
+            if (typeof callback == 'function') {
+                callback(null, reading1);
+            }
+            return reading1;
         })
     }
 
