@@ -129,7 +129,7 @@ HttpAccessory.prototype = {
                 service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
                 loggingService.addEntry({
                     time: Math.round(new Date().valueOf() / 1000),
-                    temp: reading,
+                    temp: reading1,
                     humidity: 0,
                     ppm: 0
                 })
@@ -139,7 +139,7 @@ HttpAccessory.prototype = {
                 loggingService.addEntry({
                     time: Math.round(new Date().valueOf() / 1000),
                     temp: 0,
-                    humidity: reading,
+                    humidity: reading1,
                     ppm: 0
                 })
             }
