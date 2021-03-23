@@ -143,7 +143,6 @@ HttpAccessory.prototype = {
                     ppm: 0
                 })
             }
-            callback(service, loggingService, servicetype,sensorfield, reading1, reading2)
         })
     }
 
