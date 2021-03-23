@@ -107,7 +107,7 @@ HttpAccessory.prototype = {
 
         return this.services;
     },
-    getState: function (service, loggingService, path, servicetype, sensorfield, sensorfield2) {
+    getState: function (service, loggingService, path, servicetype, sensorfield, sensorfield2,callback) {
         fs.readFile(path, 'utf8' , (err, data) => {
             if (err) {
                 console.error(err)
@@ -124,8 +124,9 @@ HttpAccessory.prototype = {
                     reading2 = element["value"];
                 }
             });
-            console.log("reading 1 und 2 " + reading1 + reading2)
+            console.log("reading 1 und 2 " + reading1 + " : " + reading2)
             if (servicetype == "TemperatureSensor") {
+                console.log("TemperatureSensor")
                 service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
                 loggingService.addEntry({
                     time: Math.round(new Date().valueOf() / 1000),
@@ -133,7 +134,10 @@ HttpAccessory.prototype = {
                     humidity: 0,
                     ppm: 0
                 })
+                callback(null, reading1);
+                return reading1;
             } else { // CurrentPowerConsumption
+                console.log("power")
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
                 service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
                 loggingService.addEntry({
@@ -142,6 +146,8 @@ HttpAccessory.prototype = {
                     humidity: reading1,
                     ppm: 0
                 })
+                callback(null, reading1);
+                return reading1;
             }
         })
     }
