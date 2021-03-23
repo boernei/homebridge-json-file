@@ -85,7 +85,7 @@ HttpAccessory.prototype = {
                     .setProps({minValue: -10, maxValue: 100, minStep: 0.1})
                     .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor.field, sensor.field2));
 
-            } else if (sensor.caractheristic == "Consumption") {
+            } else {
                 loggingService = new FakeGatoHistoryService('energy', myService, {
                     size: 360 * 24 * 6,
                     storage: 'fs'
