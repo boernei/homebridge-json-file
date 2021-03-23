@@ -94,7 +94,7 @@ HttpAccessory.prototype = {
                 myService.addOptionalCharacteristic(this.EveTotalPowerConsumption)
                 console.log("caractheristic" + sensor.caractheristic);
                 myService.getCharacteristic(this.EvePowerConsumption)
-                    .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"], addHistoryCallback));
+                    .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]));
 
             }
 
@@ -102,12 +102,12 @@ HttpAccessory.prototype = {
             this.services.push(loggingService);
             this.services.push(myService);
 
-            this.timer_temp = setInterval(this.updateState.bind(this, myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]), addHistoryCallback, 10 * 60000);
+            this.timer_temp = setInterval(this.getState.bind(this, myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]), 10 * 60000);
         }
 
         return this.services;
     },
-    getState: function (service, loggingService, path, servicetype, sensorfield,sensorfield2, callback) {
+    getState: function (service, loggingService, path, servicetype, sensorfield, sensorfield2) {
         fs.readFile(path, 'utf8' , (err, data) => {
             if (err) {
                 console.error(err)
@@ -127,41 +127,25 @@ HttpAccessory.prototype = {
             console.log("reading 1 und 2 " + reading1 + reading2)
             if (servicetype == "TemperatureSensor") {
                 service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
+                loggingService.addEntry({
+                    time: Math.round(new Date().valueOf() / 1000),
+                    temp: reading,
+                    humidity: 0,
+                    ppm: 0
+                })
             } else { // CurrentPowerConsumption
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
                 service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
+                loggingService.addEntry({
+                    time: Math.round(new Date().valueOf() / 1000),
+                    temp: 0,
+                    humidity: reading,
+                    ppm: 0
+                })
             }
             callback(service, loggingService, servicetype,sensorfield, reading1, reading2)
         })
-    },
-    updateState: function (service, loggingService, url, servicetype, sensorfield,sensorfield2, callback) {
-        this.getState(service,loggingService, url,servicetype, sensorfield ,sensorfield2, callback)
-    },
-    addHistoryCallback: function(service, loggingService, servicetype,sensorfield, reading, reading2) {
-        //if (err) return console.error(err);
-        print("addHistoryCallback")
-
-        if (servicetype == "TemperatureSensor") {
-            console.log("update TemperatureSensor");
-            loggingService.addEntry({
-                time: Math.round(new Date().valueOf() / 1000),
-                temp: reading,
-                humidity: 0,
-                ppm: 0
-            })
-        } else { // CurrentPowerConsumption
-            console.log("update power " + reading + " " + reading2);
-            loggingService.addEntry({
-                time: Math.round(new Date().valueOf() / 1000),
-                temp: 0,
-                humidity: reading,
-                ppm: 0
-            })
-
-        }
     }
-
-
 
 };
 
