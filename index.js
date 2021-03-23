@@ -86,7 +86,7 @@ HttpAccessory.prototype = {
                     .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor.field, sensor.field2));
 
             } else if (sensor.caractheristic == "Consumption") {
-                loggingService = new FakeGatoHistoryService('power', myService, {
+                loggingService = new FakeGatoHistoryService('energy', myService, {
                     size: 360 * 24 * 6,
                     storage: 'fs'
                 });
@@ -96,6 +96,15 @@ HttpAccessory.prototype = {
                 myService.getCharacteristic(this.EvePowerConsumption)
                     .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]));
 
+                myService.getCharacteristic(this.EveTotalPowerConsumption)
+                    .on('get', (callback) => {
+                        var extraPersistedData = loggingService.getExtraPersistedData();
+                        var totalenergy = 0
+                        if (extraPersistedData != undefined)
+                            totalenergy = extraPersistedData.totalenergy;
+                        this.log.debug(sprintf("getConsumptio = %f", totalenergy));
+                        callback(null, totalenergy);
+                    });
             }
 
 
@@ -138,6 +147,7 @@ HttpAccessory.prototype = {
                 console.log("power")
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
                 service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
+
                 loggingService.addEntry({
                     time: Math.round(new Date().valueOf() / 1000),
                     temp: 0,
