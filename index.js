@@ -146,6 +146,7 @@ HttpAccessory.prototype = {
                     humidity: reading1,
                     ppm: 0
                 })
+                loggingService.setExtraPersistedData({totalenergy: (reading2 / 1000), lastReset: 0});
                 callback(null, reading1);
                 return reading1;
             }
