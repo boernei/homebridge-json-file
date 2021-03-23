@@ -148,12 +148,7 @@ HttpAccessory.prototype = {
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
                 service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
 
-                loggingService.addEntry({
-                    time: Math.round(new Date().valueOf() / 1000),
-                    temp: 0,
-                    humidity: reading1,
-                    ppm: 0
-                })
+                loggingService.addEntry({time: Math.round(new Date().valueOf() / 1000), power: reading1});
                 loggingService.setExtraPersistedData({totalenergy: (reading2 / 1000), lastReset: 0});
 
             }
