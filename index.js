@@ -102,7 +102,7 @@ HttpAccessory.prototype = {
                         var totalenergy = 0
                         if (extraPersistedData != undefined)
                             totalenergy = extraPersistedData.totalenergy;
-                        this.log.debug(sprintf("getConsumptio = %f", totalenergy));
+                        this.log.debug("getConsumptio" +  totalenergy);
                         callback(null, totalenergy);
                     });
             }
