@@ -94,7 +94,7 @@ HttpAccessory.prototype = {
                 myService.addOptionalCharacteristic(this.EveTotalPowerConsumption)
                 console.log("caractheristic" + sensor.caractheristic);
                 myService.getCharacteristic(this.EvePowerConsumption)
-                    .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]));
+                    .on('get', this.getState.bind(this,myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"], addHistoryCallback));
 
             }
 
@@ -102,7 +102,7 @@ HttpAccessory.prototype = {
             this.services.push(loggingService);
             this.services.push(myService);
 
-            this.timer_temp = setInterval(this.updateState.bind(this, myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]), 10 * 60000);
+            this.timer_temp = setInterval(this.updateState.bind(this, myService, loggingService, path, sensor.service, sensor["field"], sensor["field2"]), addHistoryCallback, 10 * 60000);
         }
 
         return this.services;
@@ -135,9 +135,9 @@ HttpAccessory.prototype = {
         })
     },
     updateState: function (service, loggingService, url, servicetype, sensorfield,sensorfield2, callback) {
-        this.getState(service,loggingService, url,servicetype, sensorfield ,sensorfield2, addHistoryCallback)
+        this.getState(service,loggingService, url,servicetype, sensorfield ,sensorfield2, callback)
     },
-    addHistoryCallback: function(service, loggingService, servicetype, reading, reading2) {
+    addHistoryCallback: function(service, loggingService, servicetype,sensorfield, reading, reading2) {
         //if (err) return console.error(err);
         print("addHistoryCallback")
 
