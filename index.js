@@ -129,7 +129,7 @@ HttpAccessory.prototype = {
                 service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
             } else { // CurrentPowerConsumption
                 service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
-                service.getCharacteristic(this.EveTotalPowerConsumption).updateValue(reading2, null);
+                service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
             }
             callback(service, loggingService, servicetype,sensorfield, reading1, reading2)
         })
