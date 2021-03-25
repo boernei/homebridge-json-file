@@ -122,40 +122,45 @@ HttpAccessory.prototype = {
                 console.error(err)
                 return
             }
-            let json = JSON.parse(data);
-            var reading1 = -1;
-            var reading2 = -1;
-            json.body.records.forEach(function (element) {
-                if (element["type"] == sensorfield) {
-                    reading1 = element["value"];
-                }
-                if (element["type"] == sensorfield2) {
-                    reading2 = element["value"];
-                }
-            });
-            console.log("reading 1 und 2 " + reading1 + " : " + reading2)
-            if (servicetype == "TemperatureSensor") {
-                console.log("TemperatureSensor")
-                service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
-                loggingService.addEntry({
-                    time: Math.round(new Date().valueOf() / 1000),
-                    temp: reading1,
-                    humidity: 0,
-                    ppm: 0
-                })
-            } else { // CurrentPowerConsumption
-                console.log("power")
-                service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
-                service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
+            try {
+                let json = JSON.parse(data);
+                var reading1 = -1;
+                var reading2 = -1;
+                json.body.records.forEach(function (element) {
+                    if (element["type"] == sensorfield) {
+                        reading1 = element["value"];
+                    }
+                    if (element["type"] == sensorfield2) {
+                        reading2 = element["value"];
+                    }
+                });
+                console.log("reading 1 und 2 " + reading1 + " : " + reading2)
+                if (servicetype == "TemperatureSensor") {
+                    console.log("TemperatureSensor")
+                    service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(reading1, null);
+                    loggingService.addEntry({
+                        time: Math.round(new Date().valueOf() / 1000),
+                        temp: reading1,
+                        humidity: 0,
+                        ppm: 0
+                    })
+                } else { // CurrentPowerConsumption
+                    console.log("power")
+                    service.getCharacteristic(this.EvePowerConsumption).updateValue(reading1, null);
+                    service.getCharacteristic(this.EveTotalPowerConsumption).updateValue((reading2 / 1000), null);
 
-                loggingService.addEntry({time: Math.round(new Date().valueOf() / 1000), power: reading1});
-                loggingService.setExtraPersistedData({totalenergy: (reading2 / 1000), lastReset: 0});
+                    loggingService.addEntry({time: Math.round(new Date().valueOf() / 1000), power: reading1});
+                    loggingService.setExtraPersistedData({totalenergy: (reading2 / 1000), lastReset: 0});
 
+                }
+                if (typeof callback == 'function') {
+                    callback(null, reading1);
+                }
+                return reading1;
+            } catch(e) {
+                console.log(e); // error in the above string (in this case, yes)!
             }
-            if (typeof callback == 'function') {
-                callback(null, reading1);
-            }
-            return reading1;
+            return
         })
     }
 
